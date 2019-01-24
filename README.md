@@ -1,2 +1,2 @@
-# af_examples
-ArrayFire examples
+# arrayfire-examples
+ArrayFire Examples
