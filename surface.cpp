@@ -8,8 +8,8 @@ g++ surface.cpp -o surface -lm -lafcpu
 
 using namespace af;
 
-static const int M = 50;
-static const int N = 2 * M;
+const int M = 50;
+const int N = 2 * M;
 
 int main()
 {
@@ -24,7 +24,7 @@ int main()
         const array x = iota(dim4(N, 1), dim4(1, N)) / M - 1;
         const array y = iota(dim4(1, N), dim4(N, 1)) / M - 1;
 
-        static float t = 0;
+        float t = 0;
 
         while (!window.close())
         {
