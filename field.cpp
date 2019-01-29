@@ -10,31 +10,32 @@ using namespace af;
 
 const float MINIMUM = -3.0f;
 const float MAXIMUM = 3.0f;
-const float STEP = 0.18f;
+const float STEP = 0.3f;
 
 int main(int argc, char *argv[])
 {
     try
     {
         af::info();
-        af::Window window(1024, 1024, "2D Vector Field");
+        af::Window window(1024, 512, "2D Vector Field");
+        
         window.grid(1, 2);
         array range = seq(MINIMUM, MAXIMUM, STEP);
         array x = tile(range, 1, range.dims(0));
         array y = tile(range.T(), range.dims(0), 1);
-        x.eval();
-        y.eval();
+
         float scale = 5.0f;
         while (!window.close())
         {
             array points = join(1, flat(x), flat(y));
             array saddle = join(1, flat(x), -1.0f * flat(y));
             array bvals = cos(scale * (x * x + y * y));
-            array hbowl = join(1, constant(1, x.elements()), flat(bvals));
-            hbowl.eval();
+            array bowl = join(1, constant(1, x.elements()), flat(bvals));
+
             window(0, 0).vectorField(points, saddle, "Saddle point");
-            window(0, 1).vectorField(points, hbowl, "Hilly bowl");
+            window(0, 1).vectorField(points, bowl, "Hilly bowl");
             window.show();
+            
             scale -= 0.05f;
             if (scale < -5.0f)
                 scale = 5.0f;
